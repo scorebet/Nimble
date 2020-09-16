@@ -11,7 +11,7 @@ public func expect<T>(file: FileString = #file, line: UInt = #line, _ expression
 
 /// Make an expectation on a given actual value. The closure is lazily invoked.
 public func expect<T>(file: FileString = #file, line: UInt = #line, _ expression: @autoclosure () -> (() throws -> T)) -> Expectation<T> {
-    Expectation(
+    return Expectation(
         expression: Expression(
             expression: expression(),
             location: SourceLocation(file: file, line: line),
@@ -21,8 +21,17 @@ public func expect<T>(file: FileString = #file, line: UInt = #line, _ expression
 }
 
 /// Make an expectation on a given actual value. The closure is lazily invoked.
+ public func expect<T>(file: FileString = #file, line: UInt = #line, _ expression: @autoclosure () -> (() throws -> T?)) -> Expectation<T> {
+     return Expectation(
+         expression: Expression(
+             expression: expression(),
+             location: SourceLocation(file: file, line: line),
+             isClosure: true))
+ }
+
+/// Make an expectation on a given actual value. The closure is lazily invoked.
  public func expect(file: FileString = #file, line: UInt = #line, _ expression: @autoclosure () -> (() throws -> Void)) -> Expectation<Void> {
-    Expectation(
+    return Expectation(
         expression: Expression(
             expression: expression(),
             location: SourceLocation(file: file, line: line),
